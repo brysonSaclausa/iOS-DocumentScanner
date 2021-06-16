@@ -61,7 +61,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dPC-p0-Nza" secondAttribute="bottom" constant="41" id="aN4-eQ-KoN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="akr-YI-1xb"/>
+                    <navigationItem key="navigationItem" id="akr-YI-1xb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="camera.viewfinder" catalog="system" id="Vfr-0G-M9L">
+                            <connections>
+                                <action selector="openDocumentScannerPressed:" destination="BYZ-38-t0r" id="2aB-cw-SZ3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="myCollectionView" destination="dPC-p0-Nza" id="aof-0N-VWN"/>
                     </connections>
@@ -90,6 +96,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera.viewfinder" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

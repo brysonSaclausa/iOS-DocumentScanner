@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import VisionKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, VNDocumentCameraViewControllerDelegate {
 
     @IBOutlet weak var myCollectionView: UICollectionView!
     
@@ -18,6 +19,19 @@ class ViewController: UIViewController {
         myCollectionView.dataSource = self
         self.myCollectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: "myCell")
     }
+    
+    @IBAction func openDocumentScannerPressed(_ sender: UIBarButtonItem) {
+        configureDocumentView()
+        
+    }
+    
+    private func configureDocumentView() {
+        
+        let scanningDocumentVC = VNDocumentCameraViewController()
+        scanningDocumentVC.delegate = self
+        self.present(scanningDocumentVC, animated: true, completion: nil)
+    }
+    
 
 
 }
