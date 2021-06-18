@@ -8,16 +8,17 @@
 import UIKit
 import VisionKit
 
-class ViewController: UIViewController, VNDocumentCameraViewControllerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var myCollectionView: UICollectionView!
     
+    var scanImages:[UIImage] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        myCollectionView.backgroundColor = .systemRed
+//        myCollectionView.backgroundColor = .systemGray
         myCollectionView.delegate = self
         myCollectionView.dataSource = self
-        self.myCollectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: "myCell")
     }
     
     @IBAction func openDocumentScannerPressed(_ sender: UIBarButtonItem) {
@@ -32,24 +33,39 @@ class ViewController: UIViewController, VNDocumentCameraViewControllerDelegate {
         self.present(scanningDocumentVC, animated: true, completion: nil)
     }
     
+}//
 
-
-}
-
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        100
+        scanImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "myCell", for: indexPath) as! MyCollectionViewCell
-        cell.backgroundColor = .systemGreen
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myCell", for: indexPath) as! MyCollectionViewCell
+        
+//        cell.backgroundColor = .systemGreen
+        cell.scanImage = scanImages[indexPath.item]
         return cell
     }
     
-    
-   
-    
-   
 }
 
+extension ViewController: VNDocumentCameraViewControllerDelegate {
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        
+        for pageNumber in 0..<scan.pageCount {
+            let image = scan.imageOfPage(at: pageNumber)
+            
+            print(image)
+            self.scanImages.append(image)
+            
+        }
+        controller.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                self.myCollectionView.reloadData()
+            }
+            
+        }
+    }
+}

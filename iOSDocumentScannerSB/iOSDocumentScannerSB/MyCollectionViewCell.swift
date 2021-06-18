@@ -8,6 +8,19 @@
 import UIKit
 
 class MyCollectionViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var imageView: UIImageView!
+    
+    func updateView() {
+        self.imageView?.image = self.scanImage
+    }
+
+    var scanImage: UIImage? {
+        didSet {
+            updateView()
+        }
+        
+    }
+    
     
 }
